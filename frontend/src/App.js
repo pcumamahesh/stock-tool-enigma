@@ -6,6 +6,7 @@ import Featured from "./components/Featured";
 import StockGraph from "./components/StockGraph";
 import HomeComponent from "./components/HomeComponent";
 import StockCard from "./components/StockCard";
+import ComparisonGraph from "./components/ComparisonGraph";
 import "./App.css";
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         />
         
       </div>
+      <ComparisonGraph />
     </>
   );
   

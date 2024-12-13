@@ -49,8 +49,8 @@ const StockGraph = ({ ticker = "AAPL" }) => {
         const APIKEY = 'NB4OdUc1sX1QAXVIAWXJ2dZudBTkw_gC';
         const multiplier = 1;
         const timespan = 'day';
-        const from = '2024-01-01';  // Adjust date range as needed
-        const to = '2024-03-20';    // Adjust date range as needed
+        const from = '2023-08-20';  // Adjust date range as needed
+        const to = '2024-12-20';    // Adjust date range as needed
 
         const response = await axios.get(
           `https://api.polygon.io/v2/aggs/ticker/${ticker}/range/${multiplier}/${timespan}/${from}/${to}?apiKey=${APIKEY}`
