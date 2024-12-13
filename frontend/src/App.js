@@ -1,16 +1,22 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import IntradayPrediction from "./components/IntradayPrediction";
 import StockPrediction from "./components/StockPrediction";
+import Header from "./components/Header";
+import Featured from "./components/Featured";
 
-function App() {
-    return (
-        <Router>
+const App = () => {
+  return (
+    <div>
+      <Header></Header>
+      <Router>
             <Routes>
-                <Route path="/intraday" element={<IntradayPrediction />} />
+                <Route path="/" element={<Featured />} />
                 <Route path="/trends" element={<StockPrediction />} />
+                <Route path="/intraday" element={<IntradayPrediction />} />
             </Routes>
-        </Router>
-    );
-}
+      </Router>
+    </div>
+  );
+};
 
 export default App;
