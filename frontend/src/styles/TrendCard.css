@@ -11,9 +11,13 @@
 
   }
   
+  .trend-card:hover h1 {
+    color: white;
+  }
   .trend-card:hover {
     transform: translateY(-5px);
     background-color: #1B90EC;
+    color: white;
   }
   
   .trend-card-icon {

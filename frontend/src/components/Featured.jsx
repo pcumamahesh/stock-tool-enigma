@@ -1,81 +1,99 @@
 import React from 'react'
 import TrendCard from './TrendCard'
+import Header from "./Header";
 import '../styles/Featured.css'
 import { useState, useEffect } from "react";
 import axios from "axios";
-function Featured() {
+// function Featured() {
 
-    const companies = [
-        { ticker: "RELIANCE.NS", name: "Reliance", icon: "https://example.com/reliance-icon.png" },
-        { ticker: "TCS.NS", name: "TCS", icon: "https://example.com/tcs-icon.png" },
-        { ticker: "INFY.NS", name: "Infosys", icon: "https://example.com/infosys-icon.png" },
-      ];
-    
-      const [data, setData] = useState([]); // State to store fetched data
-      const [loading, setLoading] = useState(true);
-      const [error, setError] = useState(null);
-    
-      useEffect(() => {
+
+const companies = [
+    { ticker: "RELIANCE.NS", name: "Reliance", icon: "https://example.com/reliance-icon.png" },
+    { ticker: "TCS", name: "TCS", icon: "https://example.com/tcs-icon.png" },
+    { ticker: "INFY.NS", name: "Infosys", icon: "https://example.com/infosys-icon.png" },
+];
+
+const Featured = () => {
+    const [data, setData] = useState([]); // State to store fetched data
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
         const fetchStockPredictions = async () => {
-          setLoading(true);
-          setError(null);   
-    
-          try {
-            const responses = await Promise.all(
-              companies.map((company) =>
-                axios.get("/api/trends/", {
-                  params: {
-                    ticker: company.ticker,
-                    start_date: "2023-01-01", 
-                    end_date: "2024-12-31",
-                    interval: "1d",
-                  }
-                })
-              )
-            );
-    
-            // Combine fetched data with company details
-            const updatedData = responses.map((response, index) => ({
-              ...companies[index],
-              price: response.data.predicted_close,
-              trend: response.data.predicted_trend,
-            }));
-    
-            setData(updatedData);
+            setLoading(true);
             setError(null);
-          } catch (err) {
-            setError("Failed to fetch stock predictions.");
-          } finally {
-            setLoading(false);
-          }
+
+            try {
+                const responses = await Promise.allSettled(
+                    companies.map((company) =>
+                        axios.get("/api/trends/", {
+                            params: {
+                                ticker: company.ticker,
+                                start_date: "2023-01-01",
+                                end_date: "2024-12-31",
+                                interval: "1d",
+                            },
+                        })
+                    )
+                );
+
+                // Process responses to handle success and failures
+                const updatedData = responses.map((result, index) => {
+                    if (result.status === "fulfilled") {
+                        return {
+                            ...companies[index],
+                            price: result.value.data.predicted_close,
+                            trend: result.value.data.predicted_trend,
+                        };
+                    } else {
+                        return {
+                            ...companies[index],
+                            price: "N/A", // Fallback value
+                            trend: "Error fetching data", // Error fallback
+                        };
+                    }
+                });
+
+                setData(updatedData);
+            } catch (err) {
+                console.error(err);
+                setError("Failed to fetch stock predictions.");
+            } finally {
+                setLoading(false);
+            }
         };
-    
+
         fetchStockPredictions();
-      }, []);
+    }, []);
 
-    return (
+    if (loading) return<>  <Header></Header><div className='main'>Loading...</div>;</> 
+    if (error) return <>  <Header></Header><div className='main'>{error}</div>;</>
+
+    return (<>
+        <Header></Header>
         <div className='main'>
-      <h1>Stock Prediction Dashboard</h1>
-      {loading && <p>Loading stock predictions...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+            <h1>Stock Prediction Dashboard</h1>
+            {loading && <p>Loading stock predictions...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
-        {!loading &&
-          data.map((company) => (
-            <TrendCard
-              key={company.ticker}
-              icon={company.icon}
-              name={company.name}
-              price={company.price ? `$${company.price}` : "N/A"}
-              trend={company.trend || "Neutral"}
-            />
-          ))}
-      </div>
-    </div>
-        
-        
-        
-        
+            <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
+                {!loading &&
+                    data.map((company) => (
+                        <TrendCard
+                            key={company.ticker}
+                            icon={company.icon}
+                            name={company.name}
+                            price={company.price ? `$${company.price}` : "N/A"}
+                            trend={company.trend || "Neutral"}
+                        />
+                    ))}
+            </div>
+        </div>
+    </>
+    
+
+
+
         // <div className='parent'>
         //     <h1>Featured</h1>
         //     <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', marginTop: '20px' }}>

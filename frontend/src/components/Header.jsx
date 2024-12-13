@@ -15,7 +15,7 @@ const Header = () => {
       </nav>
     </header>
       <div className="search-bar">
-        <input type="text" placeholder="Search Component..." />
+        <input type="text" placeholder="Search Stock..." />
       </div>
       </>
 
