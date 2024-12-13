@@ -1,16 +1,19 @@
 .trend-card {
-    background-color: #d0cfcf;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
     width: 250px;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    box-shadow: 0 14px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.8s ease;
+    border: 1px solid #1B90EC;
+
+
   }
   
   .trend-card:hover {
     transform: translateY(-5px);
+    background-color: #1B90EC;
   }
   
   .trend-card-icon {
@@ -20,8 +23,8 @@
   }
   
   .trend-card-name {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 30px;
+    font-weight: 700;
     margin: 8px 0;
   }
   

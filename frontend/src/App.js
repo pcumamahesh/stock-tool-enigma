@@ -7,13 +7,15 @@ import Featured from "./components/Featured";
 
 const App = () => {
   return (
+    <> 
+    <Header></Header>
     <div>
-      <Header></Header>
       <Featured></Featured>
       
       {/* <StockPrediction /> */}
 
     </div>
+    </>
   );
 };
 
