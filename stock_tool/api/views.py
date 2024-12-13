@@ -33,3 +33,35 @@ def stock_trends_view(request):
             return JsonResponse({"error": str(e)}, status=500)
 
     return JsonResponse({"error": "Only POST method is allowed"}, status=405)
+
+from .intraday_predictions import (
+    fetch_data as fetch_data_intraday, 
+    add_technical_indicators as add_tech_indicators_intraday, 
+    engineer_features as engg_features_intraday,
+    predict_intraday_saved_model
+)
+
+@csrf_exempt
+def intraday_predictions_view(request):
+    if request.method == 'POST':
+        try:
+            body = json.loads(request.body)
+            ticker = body.get('ticker', None)
+
+            if not ticker:
+                return JsonResponse({"error": "Ticker is required"}, status=400)
+
+            # Fetch and preprocess stock data
+            stock_data = fetch_data_intraday(ticker)
+            stock_data = add_tech_indicators_intraday(stock_data)
+            stock_data = engg_features_intraday(stock_data)
+
+            # Predict using the saved model
+            prediction = predict_intraday_saved_model(stock_data)
+
+            return JsonResponse(prediction, safe=False)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "Only POST method is allowed"}, status=405)
