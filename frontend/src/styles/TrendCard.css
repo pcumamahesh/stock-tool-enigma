@@ -1,0 +1,64 @@
+.trend-card {
+    background-color: #d0cfcf;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .trend-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .trend-card-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .trend-card-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 8px 0;
+  }
+  
+  .trend-card-price {
+    font-size: 32px;
+    color: #333;
+    margin: 8px 0;
+    text-align: start;
+  }
+  
+  .trend-card-status {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  
+  .trend-card-status.uptrend {
+    color: #1e7e34;
+    background-color: #d4edda;
+  }
+  
+  .trend-card-status.downtrend {
+    color: #842029;
+    background-color: #f8d7da;
+  }
+  
+  .trend-card-status.neutral {
+    color: #856404;
+    background-color: #fff3cd;
+  }
+  
+  .company-info img{
+    border-radius: 5px;
+    margin: 5px;
+  }
+  .company-info{
+    display: flex;
+  }
