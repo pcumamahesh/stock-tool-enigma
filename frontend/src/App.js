@@ -5,18 +5,18 @@ import Header from "./components/Header";
 import Featured from "./components/Featured";
 
 const App = () => {
-  return (
-    <div>
-      <Header></Header>
-      <Router>
-            <Routes>
-                <Route path="/" element={<Featured />} />
-                <Route path="/trends" element={<StockPrediction />} />
-                <Route path="/intraday" element={<IntradayPrediction />} />
-            </Routes>
-      </Router>
-    </div>
-  );
+    return (
+        <> 
+            <Header />
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Featured />} />
+                    <Route path="/trends" element={<StockPrediction />} />
+                    <Route path="/intraday" element={<IntradayPrediction />} />
+                </Routes>
+            </Router>
+        </>
+    );
 };
 
 export default App;
