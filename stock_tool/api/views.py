@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.dateparse import parse_date
 from .trends_prediction import (
@@ -33,7 +33,7 @@ def stock_trends_view(request):
             end_date = parse_date(end_date)
 
             if not start_date or not end_date:
-                return JsonResponse({"error": "Invalid date format. Use YYYY-MM-DD."}, status=400)
+                return render(request, 'error.html', {"error": "Invalid date format. Use YYYY-MM-DD."})
 
             # Fetch historical stock data
             stock_data = fetch_data(ticker, start_date, end_date)
@@ -49,36 +49,41 @@ def stock_trends_view(request):
             # Get the prediction
             prediction = predict_trend_and_price(model, stock_data)
 
-            return JsonResponse(prediction)
+            return render(request, 'stock_trends.html', {'prediction': prediction})
         except Exception as e:
-            return JsonResponse({"error": f"Internal server error: {str(e)}"}, status=500)
+            return render(request, 'error.html', {"error": f"Internal server error: {str(e)}"})
 
-    return JsonResponse({"error": "Only GET method is allowed"}, status=405)
+    return render(request, 'error.html', {"error": "Only GET method is allowed"})
 
 # Endpoint for predicting intraday trend
 @csrf_exempt
 def intraday_predictions_view(request):
     if request.method == 'GET':
-        # Get the query parameters
-        ticker = request.GET.get('ticker', 'RELIANCE.NS')  # Default ticker if not provided
+        try:
+            # Get the query parameters
+            ticker = request.GET.get('ticker', 'RELIANCE.NS')  # Default ticker if not provided
 
-        # Fetch intraday stock data (1-minute interval)
-        stock_data = fetch_intraday_data(ticker)
+            # Fetch intraday stock data (1-minute interval)
+            stock_data = fetch_intraday_data(ticker)
 
-        # Add technical indicators like RSI and MACD
-        stock_data = add_intraday_technical_indicators(stock_data)
+            # Add technical indicators like RSI and MACD
+            stock_data = add_intraday_technical_indicators(stock_data)
 
-        # Feature Engineering
-        stock_data = engineer_intraday_features(stock_data)
+            # Feature Engineering
+            stock_data = engineer_intraday_features(stock_data)
 
-        # Split the data into training and testing sets
-        X_train, X_test, y_train, y_test = split_intraday_data(stock_data)
+            # Split the data into training and testing sets
+            X_train, X_test, y_train, y_test = split_intraday_data(stock_data)
 
-        # Train the model
-        model, mae = train_intraday_model(X_train, y_train, X_test, y_test)
+            # Train the model
+            model, mae = train_intraday_model(X_train, y_train, X_test, y_test)
 
-        # Get the intraday prediction
-        prediction = predict_intraday_trend_and_price(model, stock_data)
+            # Get the intraday prediction
+            prediction = predict_intraday_trend_and_price(model, stock_data)
 
-        # Return prediction results as JSON
-        return JsonResponse(prediction)
+            # Render the prediction results in an HTML template
+            return render(request, 'intraday_predictions.html', {'prediction': prediction})
+        except Exception as e:
+            return render(request, 'error.html', {"error": f"Internal server error: {str(e)}"})
+
+    return render(request, 'error.html', {"error": "Only GET method is allowed"})
