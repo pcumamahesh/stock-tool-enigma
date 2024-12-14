@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intraday Predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Intraday Predictions</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="ticker" class="form-label">Stock Ticker</label>
+                <input type="text" class="form-control" id="ticker" name="ticker" placeholder="e.g., HDFCBANK.NS" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Get Predictions</button>
+        </form>
+
+        {% if trend or confidence or returns %}
+        <div class="card mt-4">
+            <div class="card-header">Results</div>
+            <div class="card-body">
+                <p><strong>Stock:</strong> {{ ticker }}</p>
+                <p><strong>Trend:</strong> {{ trend }}</p>
+                <p><strong>Confidence:</strong> {{ confidence }}%</p>
+                <p><strong>Expected Returns:</strong> {{ returns }}</p>
+            </div>
+        </div>
+        {% elif error %}
+        <div class="alert alert-danger mt-4">{{ error }}</div>
+        {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

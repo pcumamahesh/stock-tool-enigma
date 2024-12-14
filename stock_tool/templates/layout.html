@@ -1,0 +1,175 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> {% block title %}Home{% endblock %} </title>
+
+    <link rel="stylesheet" href="{% static 'static/css/style.css' %}">
+
+    <style>
+
+        
+
+header {
+
+    background-color: white;
+
+    color: #1B90EC  ;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+
+  }
+
+  
+
+  h1 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+  }
+
+  .icon{
+
+    display: flex;
+
+
+
+}
+
+
+
+
+
+  nav {
+
+    display: flex;
+
+    gap: 15px;
+
+  }
+
+  
+
+  a {
+
+    color: black;
+
+    text-decoration: none;
+
+    font-size: 18px;
+
+  }
+
+  
+
+  a:hover {
+
+    text-decoration: underline;
+
+  }
+
+  
+
+  .search-bar{
+
+    margin: 40px;
+
+    text-align: end;
+
+
+
+  }
+
+
+
+  .search-bar input[type="text"] {
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    border: 1px solid #1B90EC;
+
+    width: 200px;
+
+    font-size: 16px;
+
+    color: white;
+
+    position: absolute;
+
+    left: 82%;
+
+  }
+
+
+
+  .main h1{
+
+    font-size: 42px;
+
+    color: #1B90EC;
+
+  }
+
+  
+
+    </style>
+
+</head>
+
+<body>
+
+    
+
+    <header>
+
+        <div className="icon">
+
+            <img src="{% static 'images/logo.png' %}" height="32px" width="32px" alt="logo" />
+
+            <h1>MarketMate</h1>
+
+        </div>  
+
+        <nav>
+
+            <a href="#home">Compare</a>
+
+            <a href="#about">Trends</a>
+
+            <a href="#contact">FAQ</a>
+
+            <a href="#account">Register</a>
+
+        </nav>
+
+    </header>
+
+    
+
+    {% block content %}
+
+    {% endblock %}   
+
+</body>
+
+</html>
